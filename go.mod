@@ -2,6 +2,8 @@ module github.com/jeejak/parcel-proof
 
 go 1.26.0
 
+toolchain go1.26.9
+
 require (
 	github.com/makiuchi-d/gozxing v0.1.1
 	google.golang.org/api v0.302.0

@@ -1,0 +1,22 @@
+#!/bin/sh
+# Pre-commit: refuse secrets, and keep Go formatted.
+# Enable once per clone: make hooks
+set -e
+
+if command -v gitleaks >/dev/null 2>&1; then
+  gitleaks protect --staged --redact --no-banner || {
+    echo "gitleaks found a possible secret in the staged changes; commit refused." >&2
+    exit 1
+  }
+else
+  echo "gitleaks is not installed (brew install gitleaks); secret scan skipped." >&2
+fi
+
+staged_go=$(git diff --cached --name-only --diff-filter=ACM -- '*.go')
+if [ -n "$staged_go" ]; then
+  unformatted=$(gofmt -l $staged_go)
+  if [ -n "$unformatted" ]; then
+    echo "gofmt needed on: $unformatted (run: gofmt -w .)" >&2
+    exit 1
+  fi
+fi
