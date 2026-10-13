@@ -1,0 +1,209 @@
+[
+ {
+  "id": "R01",
+  "title": "Good evidence",
+  "resi": "SPXID5774637064",
+  "koli": 1,
+  "courier": "SPX Express",
+  "expected": "kuat",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "yes",
+    "label_resi_read": "SPXID5774637064",
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R14",
+  "title": "Too dark",
+  "resi": "JP1417626322",
+  "koli": 1,
+  "courier": "J&T Express",
+  "expected": "lemah",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "dark",
+    "label_visible": "yes",
+    "label_resi_read": null,
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R20",
+  "title": "Blurry",
+  "resi": "JP7300356993",
+  "koli": 1,
+  "courier": "J&T Express",
+  "expected": "lemah",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "blurry",
+    "label_visible": "yes",
+    "label_resi_read": null,
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R26",
+  "title": "Label covered",
+  "resi": "JP2360516641",
+  "koli": 1,
+  "courier": "J&T Express",
+  "expected": "lemah",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "no",
+    "label_resi_read": null,
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R36",
+  "title": "Wrong label on the parcel",
+  "resi": "NLIDAP40703162",
+  "koli": 1,
+  "courier": "Ninja Xpress",
+  "expected": "lemah",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "yes",
+    "label_resi_read": "NLIDAP40707162",
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R42",
+  "title": "Item never shown",
+  "resi": "NLIDAP02435707",
+  "koli": 1,
+  "courier": "Ninja Xpress",
+  "expected": "lemah",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "yes",
+    "label_resi_read": "NLIDAP02435707",
+    "package_sealed": "yes",
+    "item_visible": "no",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R51",
+  "title": "Box not shown sealed",
+  "resi": "16682892392397",
+  "koli": 1,
+  "courier": "JNE",
+  "expected": "perlu_dicek",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "yes",
+    "label_resi_read": "16682892392397",
+    "package_sealed": "no",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ },
+ {
+  "id": "R55",
+  "title": "Two parcels, one shown",
+  "resi": "SPXID2255969683",
+  "koli": 2,
+  "courier": "SPX Express",
+  "expected": "perlu_dicek",
+  "photos": [
+   "01.jpg",
+   "02.jpg",
+   "03.jpg",
+   "04.jpg"
+  ],
+  "recorded": {
+   "observation": {
+    "image_usable": "ok",
+    "label_visible": "yes",
+    "label_resi_read": "SPXID2255969683",
+    "package_sealed": "yes",
+    "item_visible": "yes",
+    "koli_seen": 1
+   },
+   "model": "gemini-3.5-flash-lite",
+   "prompt_version": "2026-10-07.1"
+  }
+ }
+]

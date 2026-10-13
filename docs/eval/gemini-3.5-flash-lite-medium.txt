@@ -1,0 +1,54 @@
+Prompt version: 2026-10-07.1
+Model: gemini-3.5-flash-lite via Gemini Developer API (D11: staged photos only; free-tier inputs may be used by Google)
+Media resolution: medium
+
+Records: 64  checked: 64  schema failures: 0  other errors: 0
+
+image_usable: 59/64 agree (92%)
+    blurry→blurry            7
+    dark→dark                7
+    obstructed→ok            5
+    ok→ok                    45
+item_visible: 62/64 agree (97%)
+    no→no                    6
+    unsure→yes               2
+    yes→yes                  56
+koli_seen: 62/64 agree (97%)
+    1→1                      53
+    2→2                      7
+    2→null                   1
+    3→3                      2
+    null→1                   1
+label_resi_read: 61/64 agree (95%)
+    match→match              32
+    null→match               2
+    null→null                22
+    null→other               1
+    other→other              7
+label_visible: 63/64 agree (98%)
+    no→no                    9
+    unsure→yes               1
+    yes→yes                  54
+package_sealed: 61/64 agree (95%)
+    no→no                    8
+    unsure→yes               3
+    yes→yes                  53
+
+Verdict (human→model):
+    kuat→kuat                15
+    lemah→kuat               2
+    lemah→lemah              35
+    perlu_dicek→kuat         2
+    perlu_dicek→lemah        1
+    perlu_dicek→perlu_dicek  9
+
+D8 targets
+  lemah precision:          97.2% (35/36)  target >= 90%  PASS
+  lemah recall:             94.6% (35/37)  target >= 90%  PASS
+  unsure + schema failures: 0.0% (0/64 answered)  target < 15%  PASS
+  eval set size:            64 records, 37 human-lemah  need >= 60 and >= 30  PASS
+
+Usage
+  tokens: 156282 in, 4636 out, of which 0 reasoning  (per record: 2442 in, 72 out)
+  latency: p50 3.033s  p95 6.259s
+  cost: $0.0643 total, $0.001005 per record (at the prices passed in)

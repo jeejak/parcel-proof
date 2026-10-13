@@ -1,0 +1,65 @@
+record_id,resi,koli,courier,image_usable,label_visible,label_resi_read,package_sealed,item_visible,koli_seen,human_verdict
+R01,SPXID5774637064,1,SPX Express,ok,yes,SPXID5774637064,yes,yes,1,kuat
+R02,JP3304452940,1,J&T Express,ok,yes,JP3304452940,yes,yes,1,kuat
+R03,16394029077943,1,JNE,ok,yes,16394029077943,yes,yes,1,kuat
+R04,004546157682,2,SiCepat,ok,yes,004546157682,yes,yes,2,kuat
+R05,100094904108537,1,AnterAja,ok,yes,100094904108537,yes,yes,1,kuat
+R06,NLIDAP24457712,1,Ninja Xpress,ok,yes,NLIDAP24457712,yes,yes,1,kuat
+R07,SPXID7077071791,3,SPX Express,ok,yes,SPXID7077071791,yes,yes,3,kuat
+R08,JP7023650806,1,J&T Express,ok,yes,JP7023650806,yes,yes,1,kuat
+R09,16957813511813,2,JNE,ok,yes,16957813511813,yes,yes,2,kuat
+R10,000601062432,1,SiCepat,ok,yes,000601062432,yes,yes,1,kuat
+R11,100090383112466,1,AnterAja,ok,yes,100090383112466,yes,yes,1,kuat
+R12,NLIDAP06777400,2,Ninja Xpress,ok,yes,NLIDAP06777400,yes,yes,2,kuat
+R13,SPXID0364861316,1,SPX Express,ok,yes,SPXID0364861316,yes,yes,1,kuat
+R14,JP1417626322,1,J&T Express,dark,yes,,yes,yes,1,lemah
+R15,16668362572636,1,JNE,dark,yes,,yes,yes,1,lemah
+R16,000749411473,2,SiCepat,dark,yes,,yes,yes,2,lemah
+R17,100087397827811,1,AnterAja,dark,yes,,yes,yes,1,lemah
+R18,NLIDAP50717085,1,Ninja Xpress,dark,yes,,yes,yes,1,lemah
+R19,SPXID8215646133,1,SPX Express,dark,unsure,,unsure,unsure,,lemah
+R20,JP7300356993,1,J&T Express,blurry,yes,,yes,yes,1,lemah
+R21,16040602833884,1,JNE,blurry,yes,,yes,yes,1,lemah
+R22,008099837975,1,SiCepat,blurry,yes,,yes,yes,1,lemah
+R23,100027213015412,2,AnterAja,blurry,yes,,yes,yes,2,lemah
+R24,NLIDAP02913539,1,Ninja Xpress,blurry,yes,,yes,yes,1,lemah
+R25,SPXID6121710922,1,SPX Express,blurry,yes,,unsure,unsure,1,lemah
+R26,JP2360516641,1,J&T Express,obstructed,no,,yes,yes,1,lemah
+R27,16969357560531,1,JNE,obstructed,no,,yes,yes,1,lemah
+R28,003660936850,1,SiCepat,obstructed,no,,yes,yes,1,lemah
+R29,100086502635260,1,AnterAja,obstructed,yes,100086502635260,yes,yes,1,lemah
+R30,NLIDAP60670202,1,Ninja Xpress,obstructed,yes,NLIDAP60670202,unsure,yes,1,lemah
+R31,SPXID3949960018,1,SPX Express,ok,no,,yes,yes,1,lemah
+R32,JP8025991984,1,J&T Express,ok,no,,yes,yes,1,lemah
+R33,16729649968129,1,JNE,ok,no,,yes,yes,1,lemah
+R34,000444751464,1,SiCepat,ok,no,,yes,yes,1,lemah
+R35,100097011564743,1,AnterAja,ok,no,,yes,yes,1,lemah
+R36,NLIDAP40703162,1,Ninja Xpress,ok,yes,NLIDAP40707162,yes,yes,1,lemah
+R37,SPXID5691405256,1,SPX Express,ok,yes,SPXID5691455256,yes,yes,1,lemah
+R38,JP5323808140,1,J&T Express,ok,yes,JP5323818140,yes,yes,1,lemah
+R39,16814311775001,2,JNE,ok,yes,16461569763934,yes,yes,2,lemah
+R40,002322651203,1,SiCepat,ok,yes,002614465563,yes,yes,1,lemah
+R41,100053708050786,1,AnterAja,ok,yes,100086918238302,yes,yes,1,lemah
+R42,NLIDAP02435707,1,Ninja Xpress,ok,yes,NLIDAP02435707,yes,no,1,lemah
+R43,SPXID2357655346,1,SPX Express,ok,yes,SPXID2357655346,yes,no,1,lemah
+R44,JP0603620399,1,J&T Express,ok,yes,JP0603620399,yes,no,1,lemah
+R45,16209183936407,1,JNE,ok,yes,16209183936407,yes,no,1,lemah
+R46,000545533084,1,SiCepat,ok,yes,000545533084,yes,no,1,lemah
+R47,100024551317043,1,AnterAja,ok,yes,100024551317043,yes,yes,1,kuat
+R48,NLIDAP46824805,1,Ninja Xpress,ok,yes,,yes,yes,1,perlu_dicek
+R49,SPXID6035155568,1,SPX Express,ok,yes,,yes,yes,1,perlu_dicek
+R50,JP4391399192,1,J&T Express,ok,yes,JP4391399192,yes,yes,1,kuat
+R51,16682892392397,1,JNE,ok,yes,16682892392397,no,yes,1,perlu_dicek
+R52,008332694013,1,SiCepat,ok,yes,008332694013,no,yes,1,perlu_dicek
+R53,100058430910112,1,AnterAja,ok,yes,100058430910112,no,yes,1,perlu_dicek
+R54,NLIDAP20665438,1,Ninja Xpress,ok,yes,NLIDAP20665438,no,yes,1,perlu_dicek
+R55,SPXID2255969683,2,SPX Express,ok,yes,SPXID2255969683,yes,yes,1,perlu_dicek
+R56,JP8462516675,3,J&T Express,ok,yes,JP8462516675,yes,yes,2,perlu_dicek
+R57,16263696923681,1,JNE,ok,yes,16263696923681,yes,yes,2,perlu_dicek
+R58,009686108937,1,SiCepat,ok,yes,009686108937,yes,yes,3,perlu_dicek
+R59,100055719824119,2,AnterAja,ok,yes,100055719824119,no,yes,1,perlu_dicek
+R60,NLIDAP55984903,1,Ninja Xpress,ok,yes,NLIDAP55984903,no,yes,1,perlu_dicek
+R61,SPXID6146385167,1,SPX Express,ok,no,,no,yes,1,lemah
+R62,JP3854585781,2,J&T Express,dark,yes,,yes,yes,1,lemah
+R63,16350319748525,1,JNE,ok,yes,16916597221586,yes,no,1,lemah
+R64,004930549425,1,SiCepat,blurry,yes,,no,yes,1,lemah

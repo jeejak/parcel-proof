@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ParcelProof by Jeejak</title>
+<style>
+  :root {
+    --navy: #0A1F4F; --ink: #1d2433; --muted: #5b6475; --line: #e3e7ef; --bg: #f6f8fb; --card: #fff;
+    --kuat-bg: #e3f6ec; --kuat: #13703f; --perlu-bg: #fff3d6; --perlu: #8a5a00; --lemah-bg: #fde4e4; --lemah: #a11d1d;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --ink: #e8ecf4; --muted: #9aa4b6; --line: #2a3243; --bg: #0e1320; --card: #161c2b; --navy: #9fb6ff;
+      --kuat-bg: #12392a; --kuat: #7fe0ab; --perlu-bg: #3d3112; --perlu: #f2cc6b; --lemah-bg: #401b1d; --lemah: #ff9b9b; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, "Segoe UI", sans-serif; color: var(--ink); background: var(--bg); }
+  main { max-width: 1080px; margin: 0 auto; padding: 24px 16px 64px; }
+  h1 { color: var(--navy); font-size: 26px; margin: 0 0 4px; }
+  h2 { font-size: 18px; margin: 32px 0 8px; }
+  p.lead { color: var(--muted); margin: 0 0 8px; max-width: 760px; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+  .sample { background: var(--card); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; cursor: pointer; text-align: left; padding: 0; color: inherit; font: inherit; }
+  .sample:hover, .sample:focus-visible { outline: 2px solid var(--navy); }
+  .sample img { width: 100%; height: 140px; object-fit: cover; display: block; background: #ccc; }
+  .sample div { padding: 10px 12px; }
+  .sample small { color: var(--muted); display: block; }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px; margin-top: 16px; }
+  .photos { display: flex; gap: 8px; overflow-x: auto; }
+  .photos img { height: 150px; border-radius: 8px; }
+  .results { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  @media (max-width: 700px) { .results { grid-template-columns: 1fr; } }
+  .result { border: 1px solid var(--line); border-radius: 10px; padding: 12px; }
+  .result h3 { margin: 0 0 4px; font-size: 15px; }
+  .result small { color: var(--muted); }
+  .badge { display: inline-block; padding: 2px 10px; border-radius: 6px; font-weight: 600; margin: 6px 0; }
+  .kuat { background: var(--kuat-bg); color: var(--kuat); }
+  .perlu_dicek { background: var(--perlu-bg); color: var(--perlu); }
+  .lemah { background: var(--lemah-bg); color: var(--lemah); }
+  ul.reasons { margin: 4px 0; padding-left: 18px; }
+  table { border-collapse: collapse; font-size: 13px; margin-top: 6px; }
+  td { padding: 2px 10px 2px 0; color: var(--muted); }
+  td:last-child { color: var(--ink); font-family: ui-monospace, monospace; }
+  form { display: grid; gap: 8px; max-width: 520px; }
+  input, button { font: inherit; }
+  input[type=text] { padding: 8px; border: 1px solid var(--line); border-radius: 8px; background: var(--card); color: var(--ink); }
+  button.primary { background: var(--navy); color: #fff; border: 0; border-radius: 8px; padding: 10px 14px; cursor: pointer; }
+  .note { color: var(--muted); font-size: 13px; }
+  .err { color: var(--lemah); }
+  .stats { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 10px; }
+  .stat { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .stat b { display: block; font-size: 22px; color: var(--navy); }
+  .stat span { color: var(--muted); font-size: 13px; }
+  button.live { margin-top: 8px; background: transparent; color: var(--navy); border: 1px solid var(--navy); border-radius: 8px; padding: 6px 10px; cursor: pointer; }
+  button.live:disabled { opacity: .6; cursor: wait; }
+  a { color: var(--navy); }
+  footer { color: var(--muted); font-size: 13px; margin-top: 40px; }
+</style>
+</head>
+<body>
+<main>
+  <h1>ParcelProof <small style="font-size:15px;color:var(--muted);font-weight:500">by Jeejak</small></h1>
+  <p class="lead">Indonesian online sellers lose Shopee and TikTok disputes because their packing photos turn out to be useless: too dark, the label cut off, the box not shown sealed. Our app JejakPaket records the photos; this prototype checks, right after packing, whether they would hold up.</p>
+  <p class="lead">Two checks run side by side. The <strong>basic check</strong> measures brightness, sharpness and the shipping barcode in Go, with no model and no cost. The <strong>Gemini check</strong> reads the whole photo set and reports what it sees in a fixed schema. In both, our server decides the verdict; the model never writes text a seller reads, and is never told which tracking number to expect.</p>
+
+  <h2>Measured, not claimed</h2>
+  <p class="note">Gemini 3.5 Flash-Lite on 64 staged parcels (37 graded weak by a person), prompt 2026-10-07.1, before any seller sees a verdict. The targets were set before this run.</p>
+  <div class="stats">
+    <div class="stat"><b>100%</b><span>precision: every "Bukti lemah" was right (35/35); target 90%</span></div>
+    <div class="stat"><b>94.6%</b><span>recall: weak parcels caught (35/37); target 90%</span></div>
+    <div class="stat"><b>0%</b><span>schema failures or "unsure" answers (0/64)</span></div>
+    <div class="stat"><b>$0.0017</b><span>per parcel at the Vertex AI list price; 2.1 s median</span></div>
+    <div class="stat"><b>$0</b><span>for the basic check: dark 4/4, blurry 4/4 on held-out parcels</span></div>
+  </div>
+  <p class="note">The set is AI-generated, not real orders; real photos are measured next, in shadow mode. Full reports: <a href="https://github.com/jeejak/parcel-proof/tree/main/docs/eval">docs/eval</a>.</p>
+
+  <h2>Try a sample parcel</h2>
+  <p class="note">Staged parcels with dummy waybills, made for our evaluation. No real buyer data.</p>
+  <div class="grid" id="samples"></div>
+
+  <div class="panel" id="out" hidden></div>
+
+  <h2>Try your own photos</h2>
+  <form id="upload">
+    <input type="file" name="photos" accept="image/jpeg,image/png" multiple required>
+    <input type="text" name="resi" placeholder="Expected tracking number (optional)">
+    <button class="primary" type="submit">Run the basic check</button>
+    <span class="note">Your photos get the basic check only. They are not stored and are never sent to any AI model, because a real waybill shows a buyer's name and address.</span>
+  </form>
+  <div class="panel" id="uploadOut" hidden></div>
+
+  <footer>ParcelProof is the AI layer of <a href="https://jeejak.id">Jeejak</a>, by CV. Adisatya IT Consultant, Kediri, Indonesia. Prototype for the AI Builder Cup 2026, running on Google Cloud Run with Gemini on staged samples only. Source: <a href="https://github.com/jeejak/parcel-proof">github.com/jeejak/parcel-proof</a> (Apache-2.0).</footer>
+</main>
+<script>
+const VERDICT = { kuat: ['Bukti kuat', 'strong evidence'], perlu_dicek: ['Perlu dicek', 'worth a look'], lemah: ['Bukti lemah', 'weak evidence'] };
+const REASON = {
+  image_dark: ['Foto terlalu gelap', 'photo too dark'],
+  image_blurry: ['Foto buram', 'photo blurry'],
+  image_obstructed: ['Ada yang menutupi barang, label, atau segel', 'something covers the item, label or seal'],
+  label_not_visible: ['Label resi tidak terlihat', 'shipping label not visible'],
+  label_unreadable: ['Nomor resi di label tidak terbaca', 'tracking number on the label unreadable'],
+  label_mismatch: ['Nomor resi di label beda dengan pesanan', 'tracking number on the label differs from the order'],
+  item_not_visible: ['Barang tidak terlihat sebelum dikemas', 'item not shown before packing'],
+  not_sealed: ['Paket belum terlihat tersegel', 'parcel not shown sealed'],
+  koli_mismatch: ['Jumlah koli di foto tidak sesuai', 'parcel count in the photos is wrong'],
+};
+const SOURCE = { basic: 'Basic check: no model, no cost', live: 'Gemini, live', recorded: 'Gemini, recorded by the eval' };
+const el = (tag, attrs = {}, ...kids) => { const e = document.createElement(tag); Object.assign(e, attrs); e.append(...kids); return e; };
+
+function resultCard(title, r) {
+  const v = VERDICT[r.verdict] || [r.verdict, ''];
+  const extra = r.source === 'live' && r.latency_ms ? ' · ' + (r.latency_ms / 1000).toFixed(1) + ' s' : '';
+  const card = el('div', { className: 'result' }, el('h3', {}, title), el('small', {}, SOURCE[r.source] || r.source, r.model ? ' · ' + r.model : '', extra));
+  card.append(el('div', {}, el('span', { className: 'badge ' + r.verdict }, v[0]), ' ', el('small', {}, v[1])));
+  if (r.reasons.length) {
+    const ul = el('ul', { className: 'reasons' });
+    r.reasons.forEach(c => { const t = REASON[c]; if (t) ul.append(el('li', {}, t[0], ' ', el('small', {}, '(' + t[1] + ')'))); });
+    card.append(ul);
+  }
+  if (r.observation) {
+    const o = r.observation, t = el('table');
+    [['image', o.image_usable], ['label visible', o.label_visible], ['label reads', o.label_resi_read ?? 'none'], ['sealed', o.package_sealed], ['item visible', o.item_visible], ['parcels seen', o.koli_seen ?? 'none']]
+      .forEach(([k, val]) => t.append(el('tr', {}, el('td', {}, k), el('td', {}, String(val)))));
+    card.append(t);
+  }
+  if (r.note) card.append(el('p', { className: 'note' }, r.note));
+  return card;
+}
+
+async function loadSamples() {
+  const list = await (await fetch('/api/samples')).json();
+  const grid = document.getElementById('samples');
+  list.forEach(s => {
+    const b = el('button', { className: 'sample', type: 'button' },
+      el('img', { src: s.photos[s.photos.length - 1], alt: s.title, loading: 'lazy' }),
+      el('div', {}, el('strong', {}, s.title), el('small', {}, s.courier + ' · resi ' + s.resi)));
+    b.onclick = () => runSample(s);
+    grid.append(b);
+  });
+}
+
+async function runSample(s, live = false) {
+  const out = document.getElementById('out');
+  out.hidden = false;
+  out.replaceChildren(el('strong', {}, s.title), el('p', { className: 'note' }, 'Checking…'));
+  const photos = el('div', { className: 'photos' }, ...s.photos.map(u => el('img', { src: u, alt: 'packing photo' })));
+  try {
+    const res = await fetch('/api/check/sample/' + s.id + (live ? '/live' : ''), { method: 'POST' });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    const expected = VERDICT[s.expected] ? VERDICT[s.expected][0] : s.expected;
+    out.replaceChildren(el('strong', {}, s.title), el('p', { className: 'note' }, s.courier + ' · resi ' + s.resi + ' · ' + s.koli + ' koli · graded by a person as: ' + expected),
+      photos, el('div', { className: 'results' }, resultCard('Basic check', data.basic), resultCard('Gemini check', data.gemini)));
+    if (data.live_available && data.gemini.source !== 'live') {
+      const b = el('button', { className: 'live', type: 'button' }, 'Run Gemini live');
+      b.onclick = () => { b.disabled = true; b.textContent = 'Asking Gemini… (can take up to a minute on the free tier)'; runSample(s, true); };
+      out.querySelectorAll('.result')[1].append(b);
+    }
+  } catch (e) { out.replaceChildren(el('p', { className: 'err' }, 'Check failed: ' + e.message)); }
+}
+
+document.getElementById('upload').onsubmit = async ev => {
+  ev.preventDefault();
+  const out = document.getElementById('uploadOut');
+  out.hidden = false;
+  out.replaceChildren(el('p', { className: 'note' }, 'Checking…'));
+  try {
+    const res = await fetch('/api/check/upload', { method: 'POST', body: new FormData(ev.target) });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || res.statusText);
+    out.replaceChildren(resultCard('Basic check', data.basic));
+  } catch (e) { out.replaceChildren(el('p', { className: 'err' }, 'Check failed: ' + e.message)); }
+};
+
+loadSamples();
+</script>
+</body>
+</html>
