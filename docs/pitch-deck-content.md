@@ -47,7 +47,7 @@ The deck must use the **prescribed template** from the Hack2skill dashboard. Its
 - The Jeejak Super App: products, finance and orders, each with its own AI layer.
 
 ## 10. Links
-- Live: `LIVE_URL`
+- Live: https://parcel-proof-545977798090.asia-southeast2.run.app
 - Code: github.com/jeejak/parcel-proof
 - App: play.google.com/store/apps/details?id=id.jeejak.paket
 - Site: jeejak.id

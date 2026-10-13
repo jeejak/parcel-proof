@@ -8,4 +8,4 @@ Measured on 64 graded staged parcels before any seller sees a verdict: 100% prec
 
 ParcelProof is the AI layer of Jeejak's JejakPaket app (on Google Play), which records resi scans, packing photos and handover video for sellers.
 
-Live: `LIVE_URL`. Code: github.com/jeejak/parcel-proof (Apache-2.0).
+Live: https://parcel-proof-545977798090.asia-southeast2.run.app. Code: github.com/jeejak/parcel-proof (Apache-2.0).

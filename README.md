@@ -2,7 +2,8 @@
 
 **Will this packing photo win the dispute?** ParcelProof checks, right after packing, whether an online seller's photos would hold up as proof in a Shopee or TikTok Shop dispute, using Gemini on Google Cloud.
 
-**Live demo:** `LIVE_URL` (no login; staged sample parcels are preloaded)
+**Live demo:** https://parcel-proof-545977798090.asia-southeast2.run.app (no login; staged sample parcels are preloaded)
+
 **Built for:** AI Builder Cup 2026, Retail & Commerce: Intelligent Customer and Business Experiences
 
 ---
@@ -93,6 +94,8 @@ infra/deploy.sh <gcp-project> [region]
 ## Run locally
 
 ```bash
+make hooks                               # once per clone: gitleaks + gofmt pre-commit
+make check                               # secrets, format, vet, tests (what CI runs)
 go run ./cmd/server                      # http://localhost:8080, recorded results
 GEMINI_API_KEY=... go run ./cmd/server   # plus live Gemini on the samples
 go test -race ./...
