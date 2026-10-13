@@ -116,8 +116,8 @@ Re-run the eval on your own staged set: `go run ./cmd/eval -dir <set> -backend g
 Team **Jeejak**:
 
 - **Samsul Hadi** (team lead), Jeejak, CV. Adisatya IT Consultant, Kediri, Indonesia
-- **Rahul Todur**
-- **Ryan Rizki**
+- **Rahul Todur**, business and marketing development (India)
+- **Ryan Rizki**, software engineer
 
 ## License
 

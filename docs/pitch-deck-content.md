@@ -3,7 +3,7 @@
 The deck must use the **prescribed template** from the Hack2skill dashboard. Its slide order is not known yet; map these sections onto it and drop what the template does not ask for. Numbers are copied from [`eval`](eval); do not round them further.
 
 ## 1. Team
-- Team: Jeejak. Members: Samsul Hadi (lead), Rahul Todur, Ryan Rizki. `ROLES`: one line each on what they own.
+- Team: Jeejak. Members: Samsul Hadi (lead, product and engineering), Rahul Todur (business and marketing development, India), Ryan Rizki (software engineer).
 - Jeejak, by CV. Adisatya IT Consultant, Kediri, Indonesia.
 
 ## 2. Problem
