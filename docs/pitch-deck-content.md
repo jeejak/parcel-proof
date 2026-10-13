@@ -1,53 +1,139 @@
 # Pitch deck content
 
-The deck must use the **prescribed template** from the Hack2skill dashboard. Its slide order is not known yet; map these sections onto it and drop what the template does not ask for. Numbers are copied from [`eval`](eval); do not round them further.
+Mapped to the AI Builder Cup 2026 template, slide by slide. Paste each block into its slide, then submit the deck as .pptx (File > Download > Microsoft PowerPoint). Numbers come from [`eval`](eval); keep them as written.
 
-## 1. Team
-- Team: Jeejak. Members: Samsul Hadi (lead, product and engineering), Rahul Todur (business and marketing development, India), Ryan Rizki (software engineer).
-- Jeejak, by CV. Adisatya IT Consultant, Kediri, Indonesia.
+## Slide 1: Team details
 
-## 2. Problem
-- Indonesian online sellers on Shopee and TikTok Shop face buyer claims: missing item, empty parcel, wrong item. The marketplace asks the seller for proof.
-- The proof often fails: too dark, label cut off, box never shown sealed. The seller learns this days later, when the parcel is gone.
-- `REAL_CASE`: one real dispute a seller lost, with the amount, if you have one you can share.
+- **Team name:** Jeejak
+- **Team leader name:** Samsul Hadi
+- **Problem statement:** Retail & Commerce: Intelligent Customer and Business Experiences
 
-## 3. Solution
-- ParcelProof checks the packing photos right after packing and returns Bukti kuat / Perlu dicek / Bukti lemah with reasons.
-- Part of JejakPaket (live on Google Play), which already records resi scans, packing photos and handover video.
-- Screenshot: the wrong-label sample, basic check "kuat" vs Gemini "lemah" (reads NLIDAP40707162, order is NLIDAP40703162).
+Team: Samsul Hadi (lead, product and engineering), Rahul Todur (business and marketing development, India), Ryan Rizki (software engineer).
 
-## 4. How it uses Google AI
-- Gemini 3.5 Flash-Lite, multimodal, structured output with `responseSchema`: six fields, nothing else.
-- The model observes, the server decides. The model is never told the expected tracking number.
-- Production path: Gemini on Vertex AI. Demo: Gemini API on staged samples.
+## Slide 2: template note
 
-## 5. Architecture
-- Cloud Run (Jakarta), Secret Manager, Gemini. Diagram from the README.
-- Free basic check in Go (brightness, sharpness, barcode) beside Gemini.
+Leave as the template has it.
 
-## 6. Results (measured, not claimed)
-- 64 graded staged parcels, 37 weak: precision 100% (35/35), recall 94.6% (35/37), 0 schema failures.
-- $0.0017 per parcel at the Vertex AI list price; 2.1 s median. `MEDIUM` resolution: $0.0010.
-- Honest limit: the set is generated images; real photos are measured next in shadow mode.
+## Slide 3: Brief about the idea
 
-## 7. Business impact
-- Fewer lost disputes for sellers: proof that holds up, caught while the parcel can still be re-packed.
-- Paid-tier feature in JejakPaket (Pro Lite and up): cloud sync already ships; ParcelProof adds the reason to upgrade.
-- Cost per check is a fraction of a cent, so it fits inside the subscription.
-- `TRACTION`: installs, active shops or paying tenants, if you can share them.
+**ParcelProof: will this packing photo win the dispute?**
 
-## 8. Privacy and trust
-- Real waybills show buyer details, so the demo sends Gemini staged photos only; uploads get the basic check only.
-- In production: opt-in per shop, only records after opt-in, privacy policy names Google Cloud as processor first.
+- Indonesian online sellers lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the shipping label cut off, the box never shown sealed. They find out days later, when nothing can be re-shot.
+- ParcelProof checks the packing photos right after packing and returns **Bukti kuat** (strong), **Perlu dicek** (worth a look) or **Bukti lemah** (weak), with the reason.
+- Gemini reads the photos; our own code decides the verdict and compares the tracking number, so the model can never put a wrong number in a seller's document.
+- It is the AI layer of JejakPaket, our app on Google Play that already records resi scans, packing photos and handover video.
 
-## 9. Roadmap
-- Shadow mode on opted-in shops, precision re-measured on real photos.
-- The warning on the phone at packing time ("photo too dark, retake").
-- Claim triage: read the buyer's claim and point to the photo that answers it.
-- The Jeejak Super App: products, finance and orders, each with its own AI layer.
+## Slide 4: Opportunities
 
-## 10. Links
-- Live: https://parcel-proof-545977798090.asia-southeast2.run.app
-- Code: github.com/jeejak/parcel-proof
-- App: play.google.com/store/apps/details?id=id.jeejak.paket
-- Site: jeejak.id
+**How is it different from existing ideas?**
+- Recording apps store proof. ParcelProof tells the seller, before the parcel leaves, whether that proof will hold up, and why.
+- Built on a product sellers can already install (JejakPaket on Google Play), not a standalone demo.
+
+**How does it solve the problem?**
+- It catches weak proof while the parcel is still on the table, when re-shooting costs seconds instead of a lost dispute.
+- Reasons are specific: dark, blurry, label not visible, label number doesn't match the order, item not shown, box not shown sealed, wrong parcel count.
+
+**USP**
+- Measured before trusted: 100% precision and 94.6% recall on weak evidence, against targets set before the run.
+- The model observes, the server decides: fixed JSON schema in, deterministic verdict out, fixed Indonesian text to the seller.
+- Privacy by design: real photos only after a shop opts in; a free check that sends no photo anywhere runs beside Gemini.
+
+## Slide 5: List of features
+
+- Verdict per parcel: Bukti kuat / Perlu dicek / Bukti lemah, with reason codes
+- Tracking-number check: Gemini reads the label, the server compares it with the order
+- Photo quality: dark, blurry, obstructed
+- Completeness: item shown before packing, box shown sealed, parcel count (koli)
+- Free basic check: brightness, sharpness and shipping barcode with no model and no cost
+- Structured output only: six fields in a JSON schema; invalid answers are discarded, never repaired
+- Cost controls: four photos per parcel at 1024 px, optional lower media resolution (45% fewer input tokens)
+- Offline eval tool: precision, recall, cost and latency on a graded set before any release
+
+## Slide 6: Process flow diagram
+
+Draw left to right:
+
+1. **Packer** scans the resi and takes packing photos in JejakPaket
+2. **Photos sync** to Jeejak (paid plans)
+3. **ParcelProof** selects up to four photos (first two, last two) and downscales them
+4. **Gemini** answers six fields in a JSON schema
+5. **Decide** (our code) compares the tracking number, applies the rules, returns verdict + reasons
+6. **Seller** sees the badge; weak proof means re-shoot while the parcel is still there
+
+Side branch at step 3: the **basic check** (brightness, sharpness, barcode) with no model.
+
+## Slide 7: Wireframes (optional)
+
+Skip, or reuse a screenshot from Slide 11.
+
+## Slide 8: Architecture diagram
+
+```
+Browser ──HTTPS──> Cloud Run: parcel-proof (asia-southeast2, Jakarta)
+                     ├─> Basic check (Go: pixels + Code 128 barcode, no model)
+                     ├─> Gemini API: gemini-3.5-flash-lite (staged samples only, responseSchema)
+                     └─> Decide (Go): verdict + reason codes ──> Browser
+Secret Manager (gemini-api-key) ··> Cloud Run
+
+Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI ──> verdict ──> seller console badge
+```
+
+## Slide 9: Technologies
+
+- **Google AI:** Gemini 3.5 Flash-Lite, multimodal, structured output (`responseSchema`); Gemini API for the demo, Vertex AI for production
+- **Google Cloud:** Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager
+- **Backend:** Go, Google API client, gozxing for barcodes
+- **Product:** JejakPaket (Flutter, Google Play), Jeejak console (Go + React), Postgres, object storage
+- **Quality:** offline eval harness, Go race tests, gitleaks secret scanning, govulncheck, GitHub Actions
+
+## Slide 10: Estimated implementation cost (optional)
+
+- Gemini 3.5 Flash-Lite at the Vertex AI list price: **$0.0017 per parcel** (measured: 4,440 input and 72 output tokens per parcel)
+- At `MEDIUM` media resolution: **$0.0010 per parcel**
+- Example, 100 parcels a day for 30 days: about **$5** a month, or **$3** at `MEDIUM`
+- Basic check: **$0**
+- Hosting: Cloud Run scales to zero; the demo runs within the free tier
+
+## Slide 11: Snapshots of the prototype
+
+Screenshots from https://parcel-proof-545977798090.asia-southeast2.run.app:
+
+1. The sample gallery and the "Measured, not claimed" numbers
+2. **Wrong label on the parcel:** basic check says Bukti kuat; Gemini says Bukti lemah, reading NLIDAP40707162 while the order is NLIDAP40703162
+3. **Too dark:** both checks say Bukti lemah
+4. Upload: your own photo gets the basic check only and is never sent to a model
+
+## Slide 12: Prototype performance report / benchmarking
+
+64 graded staged parcels (37 weak), Gemini 3.5 Flash-Lite, prompt 2026-10-07.1:
+
+| Measure | Result | Target |
+|---|---|---|
+| "Bukti lemah" precision | 100.0% (35/35) | at least 90% |
+| "Bukti lemah" recall | 94.6% (35/37) | at least 90% |
+| "unsure" + schema failures | 0.0% (0/64) | under 15% |
+| Latency p50 / p95 | 2.08 s / 4.38 s | |
+| Cost per parcel | $0.0017 | |
+
+At `MEDIUM` resolution: precision 97.2%, recall 94.6%, $0.0010. Basic check on held-out parcels: dark 4/4, blurry 4/4, no false alarm on 21 good parcels, 0.22 s, $0.
+
+Caveat: the parcels are AI-generated images of staged packing, not real orders; real photos are measured next, in shadow mode.
+
+## Slide 13: Additional details / future development
+
+- Shadow mode on opted-in shops, with precision re-measured on real photos
+- The warning on the phone at packing time: "photo too dark, retake"
+- Claim triage: read the buyer's claim and point to the photo that answers it
+- English across Jeejak's site, app and console (planned)
+- The Jeejak Super App: products, finance and orders, each with its own AI layer
+- Business development from India, led by Rahul Todur
+
+## Slide 14: Links
+
+- **GitHub public repository:** https://github.com/jeejak/parcel-proof
+- **Demo video link (3 minutes):** `VIDEO_URL`
+- **Final product link:** https://parcel-proof-545977798090.asia-southeast2.run.app
+
+## Slide 15
+
+Closing slide: leave as the template has it.
