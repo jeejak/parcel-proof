@@ -72,6 +72,9 @@ type serverConfig struct {
 	Logger     *slog.Logger
 	// Live overrides the Gemini checker (tests).
 	Live evidencecheck.Checker
+	// Store keeps live results across instances (Firestore on Cloud Run).
+	// Nil keeps them in memory only.
+	Store liveStore
 }
 
 type server struct {
@@ -79,6 +82,7 @@ type server struct {
 	samples map[string]Sample
 	order   []string
 	live    evidencecheck.Checker
+	store   liveStore
 	model   string
 	logger  *slog.Logger
 
@@ -96,7 +100,7 @@ func newServer(cfg serverConfig) (*server, error) {
 	if err := json.Unmarshal(raw, &list); err != nil {
 		return nil, fmt.Errorf("parse samples: %w", err)
 	}
-	s := &server{dir: cfg.SamplesDir, samples: map[string]Sample{}, model: cfg.Model, logger: cfg.Logger, cache: map[string]checkResult{}, locks: map[string]*sync.Mutex{}}
+	s := &server{dir: cfg.SamplesDir, samples: map[string]Sample{}, model: cfg.Model, store: cfg.Store, logger: cfg.Logger, cache: map[string]checkResult{}, locks: map[string]*sync.Mutex{}}
 	if s.logger == nil {
 		s.logger = slog.Default()
 	}
@@ -133,6 +137,7 @@ func (s *server) routes() http.Handler {
 	mux.HandleFunc("GET /api/samples", s.listSamples)
 	mux.HandleFunc("GET /samples/{id}/{file}", s.samplePhoto)
 	mux.HandleFunc("GET /health", s.health)
+	mux.HandleFunc("GET /api/history", s.history)
 	mux.HandleFunc("POST /api/check/sample/{id}", s.checkSample)
 	mux.HandleFunc("POST /api/check/sample/{id}/live", s.checkSampleLive)
 	mux.HandleFunc("POST /api/check/upload", s.checkUpload)
@@ -253,7 +258,7 @@ func (s *server) respondSample(w http.ResponseWriter, r *http.Request, live bool
 	if live {
 		g = s.gemini(r.Context(), sm, photos)
 	} else {
-		g = s.cachedOrRecorded(sm)
+		g = s.cachedOrRecorded(r.Context(), sm)
 	}
 	writeJSON(w, http.StatusOK, checkResponse{Basic: basic, Gemini: &g, LiveAvailable: s.live != nil})
 }
@@ -296,7 +301,54 @@ func (s *server) gemini(ctx context.Context, sm Sample, photos [][]byte) checkRe
 	s.mu.Lock()
 	s.cache[sm.ID] = res
 	s.mu.Unlock()
+	if s.store != nil {
+		sctx, cancel := context.WithTimeout(context.WithoutCancel(ctx), 5*time.Second)
+		if err := s.store.Save(sctx, sm.ID, sm.Title, res); err != nil {
+			s.logger.Warn("store live result", "id", sm.ID, "err", err)
+		}
+		cancel()
+	}
 	return res
+}
+
+// stored returns the latest live result another instance saved, and
+// keeps it in memory. A store that is slow or down never blocks the
+// page: the caller falls back to the recorded result.
+func (s *server) stored(ctx context.Context, id string) (checkResult, bool) {
+	if s.store == nil {
+		return checkResult{}, false
+	}
+	sctx, cancel := context.WithTimeout(ctx, 3*time.Second)
+	defer cancel()
+	c, ok, err := s.store.Latest(sctx, id)
+	if err != nil {
+		s.logger.Warn("read stored live result", "id", id, "err", err)
+		return checkResult{}, false
+	}
+	if !ok {
+		return checkResult{}, false
+	}
+	s.mu.Lock()
+	s.cache[id] = c
+	s.mu.Unlock()
+	return c, true
+}
+
+// history lists the most recent live Gemini checks, newest first.
+func (s *server) history(w http.ResponseWriter, r *http.Request) {
+	if s.store == nil {
+		writeJSON(w, http.StatusOK, []historyEntry{})
+		return
+	}
+	ctx, cancel := context.WithTimeout(r.Context(), 5*time.Second)
+	defer cancel()
+	h, err := s.store.Recent(ctx, 8)
+	if err != nil {
+		s.logger.Warn("read history", "err", err)
+		writeJSON(w, http.StatusOK, []historyEntry{})
+		return
+	}
+	writeJSON(w, http.StatusOK, h)
 }
 
 // checkUpload runs the basic check only. The photos are read into
@@ -367,11 +419,14 @@ func recordedResult(sm Sample, note string) checkResult {
 		Model: sm.Recorded.Model, Note: note}
 }
 
-func (s *server) cachedOrRecorded(sm Sample) checkResult {
+func (s *server) cachedOrRecorded(ctx context.Context, sm Sample) checkResult {
 	s.mu.Lock()
 	c, ok := s.cache[sm.ID]
 	s.mu.Unlock()
 	if ok {
+		return c
+	}
+	if c, ok := s.stored(ctx, sm.ID); ok {
 		return c
 	}
 	if s.live == nil {
@@ -389,6 +444,11 @@ func (s *server) warm(ctx context.Context) {
 	}
 	for _, id := range s.order {
 		sm := s.samples[id]
+		// A live result another instance stored is as good as a new call
+		// and costs no quota.
+		if _, ok := s.stored(ctx, id); ok {
+			continue
+		}
 		photos, err := s.loadSample(sm)
 		if err != nil {
 			continue

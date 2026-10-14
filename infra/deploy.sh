@@ -4,7 +4,8 @@
 #   infra/deploy.sh <gcp-project> [region]
 #
 # Needs: gcloud logged in; billing linked on <gcp-project> (Cloud Run,
-# Cloud Build and Artifact Registry need it even inside the free tier);
+# Cloud Build and Artifact Registry need it even inside the free tier;
+# --min-instances 1 keeps one instance up for judges, which is billed);
 # the run, cloudbuild, artifactregistry and secretmanager APIs enabled;
 # and optionally a Secret Manager secret `gemini-api-key` readable by the
 # project's default compute service account.
@@ -31,6 +32,14 @@ gcloud artifacts repositories describe cloud-run-source-deploy --project "$proje
 gcloud projects add-iam-policy-binding "$project" --condition=None --quiet \
   --member "serviceAccount:${number}-compute@developer.gserviceaccount.com" --role roles/run.builder >/dev/null
 
+# Firestore (Native) in the same region stores live results so every
+# instance can serve them; the service account reads and writes it.
+gcloud services enable firestore.googleapis.com --project "$project"
+gcloud firestore databases describe --database='(default)' --project "$project" >/dev/null 2>&1 ||
+  gcloud firestore databases create --database='(default)' --location "$region" --type firestore-native --project "$project"
+gcloud projects add-iam-policy-binding "$project" --condition=None --quiet \
+  --member "serviceAccount:${number}-compute@developer.gserviceaccount.com" --role roles/datastore.user >/dev/null
+
 secret_flag=()
 if gcloud secrets describe gemini-api-key --project "$project" >/dev/null 2>&1; then
   secret_flag=(--set-secrets GEMINI_API_KEY=gemini-api-key:latest)
@@ -40,9 +49,9 @@ fi
 
 gcloud run deploy "$service" \
   --project "$project" --region "$region" --source "$root" \
-  --allow-unauthenticated --max-instances 2 --memory 512Mi --cpu 1 \
+  --allow-unauthenticated --min-instances 1 --max-instances 2 --memory 512Mi --cpu 1 \
   --concurrency 20 --timeout 90 --cpu-boost \
-  --set-env-vars GEMINI_MODEL=gemini-3.5-flash-lite \
+  --set-env-vars GEMINI_MODEL=gemini-3.5-flash-lite,FIRESTORE_PROJECT="$project" \
   ${secret_flag[@]+"${secret_flag[@]}"}
 
 url=$(gcloud run services describe "$service" --project "$project" --region "$region" --format 'value(status.url)')

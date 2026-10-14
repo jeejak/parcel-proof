@@ -13,6 +13,7 @@ import (
 	"os"
 	"path/filepath"
 	"strings"
+	"sync"
 	"sync/atomic"
 	"testing"
 
@@ -208,5 +209,105 @@ func TestNewServer_RejectsBadPhotoNames(t *testing.T) {
 	_ = os.WriteFile(filepath.Join(dir, "samples.json"), []byte(`[{"id":"R01","photos":["../../etc/passwd"]}]`), 0o644)
 	if _, err := newServer(serverConfig{SamplesDir: dir}); err == nil {
 		t.Fatal("accepted a traversal photo name")
+	}
+}
+
+// fakeStore is an in-memory liveStore.
+type fakeStore struct {
+	mu      sync.Mutex
+	latest  map[string]checkResult
+	history []historyEntry
+	failGet bool
+}
+
+func newFakeStore() *fakeStore { return &fakeStore{latest: map[string]checkResult{}} }
+
+func (f *fakeStore) Latest(_ context.Context, id string) (checkResult, bool, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if f.failGet {
+		return checkResult{}, false, errors.New("firestore down")
+	}
+	c, ok := f.latest[id]
+	return c, ok, nil
+}
+
+func (f *fakeStore) Save(_ context.Context, id, title string, res checkResult) error {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	f.latest[id] = res
+	f.history = append([]historyEntry{{SampleID: id, Title: title, Result: res}}, f.history...)
+	return nil
+}
+
+func (f *fakeStore) Recent(_ context.Context, n int) ([]historyEntry, error) {
+	f.mu.Lock()
+	defer f.mu.Unlock()
+	if len(f.history) > n {
+		return f.history[:n], nil
+	}
+	return f.history, nil
+}
+
+func darkLive(calls *atomic.Int32) evidencecheck.Checker {
+	return evidencecheck.FakeChecker{Fn: func(context.Context, evidencecheck.Request) (evidencecheck.Observation, evidencecheck.Usage, error) {
+		calls.Add(1)
+		return evidencecheck.Observation{ImageUsable: "dark", LabelVisible: "unsure", PackageSealed: "yes", ItemVisible: "yes"}, evidencecheck.Usage{Model: "live-model"}, nil
+	}}
+}
+
+// A live result is saved to the store, and a fresh instance (new server,
+// same store) serves it on the default path without calling the model.
+func TestStore_LiveResultSurvivesANewInstance(t *testing.T) {
+	dir := stage(t)
+	st := newFakeStore()
+	var calls atomic.Int32
+	a, _ := newServer(serverConfig{SamplesDir: dir, Live: darkLive(&calls), Store: st})
+	if _, out := post(t, a.routes(), "/api/check/sample/R01/live", nil, ""); out.Gemini.Source != "live" {
+		t.Fatalf("live: %+v", out.Gemini)
+	}
+	b, _ := newServer(serverConfig{SamplesDir: dir, Live: darkLive(&calls), Store: st})
+	_, out := post(t, b.routes(), "/api/check/sample/R01", nil, "")
+	if out.Gemini.Source != "live" || out.Gemini.Verdict != "lemah" || calls.Load() != 1 {
+		t.Fatalf("fresh instance: %+v, model calls %d", out.Gemini, calls.Load())
+	}
+	// Warming a fresh instance reads the store instead of the model.
+	c, _ := newServer(serverConfig{SamplesDir: dir, Live: darkLive(&calls), Store: st})
+	c.warm(context.Background())
+	if calls.Load() != 1 {
+		t.Fatalf("warm called the model with a stored result: %d calls", calls.Load())
+	}
+}
+
+// A store that fails never breaks the page: the recorded result shows.
+func TestStore_FailureFallsBackToRecorded(t *testing.T) {
+	st := newFakeStore()
+	st.failGet = true
+	s, _ := newServer(serverConfig{SamplesDir: stage(t), Store: st})
+	code, out := post(t, s.routes(), "/api/check/sample/R01", nil, "")
+	if code != 200 || out.Gemini.Source != "recorded" {
+		t.Fatalf("code %d %+v", code, out.Gemini)
+	}
+}
+
+func TestHistory(t *testing.T) {
+	st := newFakeStore()
+	var calls atomic.Int32
+	s, _ := newServer(serverConfig{SamplesDir: stage(t), Live: darkLive(&calls), Store: st})
+	h := s.routes()
+	post(t, h, "/api/check/sample/R01/live", nil, "")
+	rec := httptest.NewRecorder()
+	h.ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/api/history", nil))
+	var got []historyEntry
+	_ = json.Unmarshal(rec.Body.Bytes(), &got)
+	if rec.Code != 200 || len(got) != 1 || got[0].SampleID != "R01" || got[0].Result.Source != "live" {
+		t.Fatalf("history %d %s", rec.Code, rec.Body.String())
+	}
+	// Without a store the history is an empty list, not an error.
+	s2, _ := newServer(serverConfig{SamplesDir: stage(t)})
+	rec = httptest.NewRecorder()
+	s2.routes().ServeHTTP(rec, httptest.NewRequest(http.MethodGet, "/api/history", nil))
+	if rec.Code != 200 || strings.TrimSpace(rec.Body.String()) != "[]" {
+		t.Fatalf("no store: %d %s", rec.Code, rec.Body.String())
 	}
 }

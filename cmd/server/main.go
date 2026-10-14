@@ -18,6 +18,8 @@
 //	SAMPLES_DIR     staged samples: samples.json + <id>/NN.jpg (default ./samples)
 //	GEMINI_API_KEY  optional; with it, a sample's first check calls Gemini live
 //	GEMINI_MODEL    default gemini-3.5-flash-lite
+//	FIRESTORE_PROJECT optional; stores live results in Firestore so every
+//	                instance can serve them, and lists recent live checks
 package main
 
 import (
@@ -30,7 +32,17 @@ import (
 
 func main() {
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, nil))
+	var store liveStore
+	if project := os.Getenv("FIRESTORE_PROJECT"); project != "" {
+		fs, err := newFirestoreStore(context.Background(), project)
+		if err != nil {
+			logger.Error("firestore unavailable; live results stay in memory", "err", err)
+		} else {
+			store = fs
+		}
+	}
 	srv, err := newServer(serverConfig{
+		Store:      store,
 		SamplesDir: envOr("SAMPLES_DIR", "samples"),
 		APIKey:     os.Getenv("GEMINI_API_KEY"),
 		Model:      envOr("GEMINI_MODEL", "gemini-3.5-flash-lite"),
@@ -42,7 +54,7 @@ func main() {
 	}
 	go srv.warm(context.Background())
 	addr := ":" + envOr("PORT", "8080")
-	logger.Info("evidencecheck demo listening", "addr", addr, "samples", len(srv.samples), "gemini_live", srv.live != nil)
+	logger.Info("evidencecheck demo listening", "addr", addr, "samples", len(srv.samples), "gemini_live", srv.live != nil, "firestore", store != nil)
 	hs := &http.Server{
 		Addr:              addr,
 		Handler:           srv.routes(),
