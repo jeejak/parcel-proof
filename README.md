@@ -67,6 +67,7 @@ flowchart LR
   CR -->|"pixels + barcode (Go, no model)"| BC[Basic check]
   CR -->|"staged samples only, responseSchema"| G[Gemini API: gemini-3.5-flash-lite]
   SM[Secret Manager: gemini-api-key] -.-> CR
+  CR <-->|"live results + history"| FS[(Cloud Firestore)]
   BC --> D[Decide: verdict + reason codes]
   G --> D
   D --> B
@@ -85,7 +86,9 @@ A real waybill shows the buyer's name, phone and address. So:
 
 - **Cloud Run**, region `asia-southeast2` (Jakarta), built from source with the root [`Dockerfile`](Dockerfile) (distroless, non-root).
 - **Secret Manager** holds the Gemini API key; it is never in the repo.
-- `/health` for uptime checks. The first screen never waits on a model call: it serves the result the eval recorded for each sample, and "Run Gemini live" calls the model on demand (once per sample per instance, so the free quota lasts). If Gemini is busy, the recorded result is shown with a note instead of an error.
+- **Cloud Firestore** stores every live Gemini result. Any instance shows the latest live verdict for a sample without calling the model again, and the page lists recent live checks.
+- One instance always up (`--min-instances 1`, at most 2), so there is no cold start.
+- `/health` for uptime checks. The first screen never waits on a model call: it serves the stored live result for each sample, or the one the eval recorded, and "Run Gemini live" calls the model on demand. If Gemini is busy, the recorded result is shown with a note instead of an error.
 
 ```bash
 infra/deploy.sh <gcp-project> [region]

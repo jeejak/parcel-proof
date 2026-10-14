@@ -20,7 +20,7 @@ Leave as the template has it.
 
 - Indonesian online sellers lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the shipping label cut off, the box never shown sealed. They find out days later, when nothing can be re-shot.
 - ParcelProof checks the packing photos right after packing and returns **Bukti kuat** (strong), **Perlu dicek** (worth a look) or **Bukti lemah** (weak), with the reason.
-- Gemini reads the photos; our own code decides the verdict and compares the tracking number, so the model can never put a wrong number in a seller's document.
+- Gemini reads the photos; our own code decides the verdict and compares the tracking number, so the model can't write a tracking number into a seller's proof.
 - It is the AI layer of JejakPaket, our app on Google Play that already records resi scans, packing photos and handover video.
 
 ## Slide 4: Opportunities
@@ -74,6 +74,7 @@ Browser ──HTTPS──> Cloud Run: parcel-proof (asia-southeast2, Jakarta)
                      ├─> Gemini API: gemini-3.5-flash-lite (staged samples only, responseSchema)
                      └─> Decide (Go): verdict + reason codes ──> Browser
 Secret Manager (gemini-api-key) ··> Cloud Run
+Cloud Run <──> Cloud Firestore (live results + history)
 
 Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI ──> verdict ──> seller console badge
 ```
@@ -81,7 +82,7 @@ Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI 
 ## Slide 9: Technologies
 
 - **Google AI:** Gemini 3.5 Flash-Lite, multimodal, structured output (`responseSchema`); Gemini API for the demo, Vertex AI for production
-- **Google Cloud:** Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager
+- **Google Cloud:** Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager, Cloud Firestore
 - **Backend:** Go, Google API client, gozxing for barcodes
 - **Product:** JejakPaket (Flutter, Google Play), Jeejak console (Go + React), Postgres, object storage
 - **Quality:** offline eval harness, Go race tests, gitleaks secret scanning, govulncheck, GitHub Actions
@@ -92,7 +93,7 @@ Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI 
 - At `MEDIUM` media resolution: **$0.0010 per parcel**
 - Example, 100 parcels a day for 30 days: about **$5** a month, or **$3** at `MEDIUM`
 - Basic check: **$0**
-- Hosting: Cloud Run scales to zero; the demo runs within the free tier
+- Hosting: one Cloud Run instance always up (at most 2) plus Firestore, paid from Google Cloud free-trial credit
 
 ## Slide 11: Snapshots of the prototype
 
@@ -126,7 +127,7 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 - Claim triage: read the buyer's claim and point to the photo that answers it
 - English across Jeejak's site, app and console (planned)
 - The Jeejak Super App: products, finance and orders, each with its own AI layer
-- Business development from India, led by Rahul Todur
+- Business development in India
 
 ## Slide 14: Links
 
