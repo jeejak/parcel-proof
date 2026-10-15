@@ -137,7 +137,7 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 Slide titles drop the template's "(optional)" and "(if any)" qualifiers, its "or Use-case diagram" alternative and its "Provide links to your:" prompt; the section names are otherwise the template's own.
 
 - **GitHub public repository:** https://github.com/jeejak/parcel-proof
-- **Demo video link (3 minutes):** `VIDEO_URL`
+- **Demo video link:** `VIDEO_URL`
 - **Final product link:** https://jeejak-parcel-proof-run.web.app
 
 ## Spare slide (template's blank slide after Links): Showcase
