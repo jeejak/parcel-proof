@@ -64,7 +64,7 @@ Side branch at step 3: the **basic check** (brightness, sharpness, barcode) with
 
 ## Slide 7: Wireframes (optional)
 
-Left, three JejakPaket screens from the Google Play listing (home, packing scan, an order with its proof photos): "JejakPaket on Google Play: home, packing scan, an order with its proof photos. This is where the photos come from; the on-phone warning is Phase 2."
+Left, the four JejakPaket steps as shown on jeejak.id (Scan, Foto, Video, PDF): "JejakPaket on Google Play: scan the resi, photograph the packing, record the handover, export the dispute PDF. These photos are what ParcelProof checks; the on-phone warning is Phase 2."
 
 Right, the ParcelProof page on web.app: "ParcelProof on web.app, no login · Measured results first, then eight staged samples · Uploads get the free basic check only."
 

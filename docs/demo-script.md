@@ -11,7 +11,7 @@ Live URL: https://jeejak-parcel-proof-run.web.app (Firebase Hosting in front of 
 | Time | On screen | Say |
 |---|---|---|
 | 0:00 to 0:20 | A dark packing photo, a blurry one, then a marketplace dispute screen (buyer data blurred) | "Every day, Indonesian online sellers lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the label cut off, the box never shown sealed. They find out days later, when the parcel is gone and nothing can be re-shot." |
-| 0:20 to 0:35 | The three JejakPaket screens from Google Play (home, packing scan, an order with its proof photos), then the ParcelProof title | "We are Jeejak. Our app JejakPaket, on Google Play, records proof for every parcel. ParcelProof is its AI layer: right after packing, it tells the seller whether those photos would win a dispute." |
+| 0:20 to 0:35 | The JejakPaket phone on jeejak.id stepping through **Scan, Foto, Video, PDF** (the tabs advance every 4 seconds; record the hero, or use stills `20` to `23`), ending on the dispute PDF, then the ParcelProof title | "We are Jeejak. Our app JejakPaket, on Google Play, records proof for every parcel. ParcelProof is its AI layer: right after packing, it tells the seller whether those photos would win a dispute." |
 | 0:35 to 1:05 | **Browser, full window, address bar visible.** Click **Good evidence**, then **Too dark** | "This is the live app, on Firebase Hosting and Google Cloud Run. Each parcel gets a verdict: Bukti kuat, strong; Perlu dicek, worth a look; or Bukti lemah, weak, with the reasons. Two checks run side by side. A free basic check measures brightness, sharpness and the barcode, with no model. Gemini reads the whole photo set." |
 | 1:05 to 1:45 | Click **Wrong label on the parcel**, press **Run Gemini live**; it answers at once. Highlight the **21.8 s** on the result card, then "label reads" | "Here is the case that costs sellers money. The basic check says strong: the photos are sharp and bright. Gemini disagrees. This result came from a live call that took 21.8 seconds on the free tier, and Firestore keeps it, so it comes back at once. Gemini 3.5 Flash-Lite reads the label: 4070-7162. The order is 4070-3162. One digit, and this parcel loses its dispute. Gemini is never told which number to expect. It only transcribes; our server compares." |
 | 1:45 to 2:00 | **Upload your own photo** (one with no real address in frame). Show the basic check result and the note that it is not sent to a model | "Your own photo gets the basic check only. It is never stored and never reaches a model, because a real waybill shows the buyer's name, phone and address." |
@@ -44,6 +44,8 @@ Each of these is checked against the eval report; do not round or rephrase them 
 5. Log in to `paket-demo.jeejak.id` as the demo owner **before** you start recording, so the login form and the password are never on screen. Check that Bukti Drop shows the badges on all eight parcels.
 
 ## In the edit
+
+- **The PDF carries no AI verdict.** Show it as what the seller sends in a dispute, never as ParcelProof output.
 
 - **No timer and no fake wait** for the wrong-label result: it answers at once, and the card's 21.8 s is the real figure.
 - **Label anything sped up** ("sped up"), such as a scroll or a page load you shortened.
