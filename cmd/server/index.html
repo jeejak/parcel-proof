@@ -64,7 +64,7 @@
   <p class="lead">Two checks run side by side. The <strong>basic check</strong> measures brightness, sharpness and the shipping barcode in Go, with no model and no cost. The <strong>Gemini check</strong> reads the whole photo set and reports what it sees in a fixed schema. In both, our server decides the verdict; the model never writes text a seller reads, and is never told which tracking number to expect.</p>
 
   <h2>Measured, not claimed</h2>
-  <p class="note">Gemini 3.5 Flash-Lite on 64 staged parcels (37 graded weak by a person), prompt 2026-10-07.1, before any seller sees a verdict. The targets were set before this run.</p>
+  <p class="note">Gemini 3.5 Flash-Lite on 64 staged parcels (37 labelled weak by a person), prompt 2026-10-07.1, before any seller sees a verdict. The targets were set before this run.</p>
   <div class="stats">
     <div class="stat"><b>100%</b><span>precision: every "Bukti lemah" was right (35/35); target 90%</span></div>
     <div class="stat"><b>94.6%</b><span>recall: weak parcels caught (35/37); target 90%</span></div>
@@ -154,7 +154,7 @@ async function runSample(s, live = false) {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
     const expected = VERDICT[s.expected] ? VERDICT[s.expected][0] : s.expected;
-    out.replaceChildren(el('strong', {}, s.title), el('p', { className: 'note' }, s.courier + ' · resi ' + s.resi + ' · ' + s.koli + ' koli · graded by a person as: ' + expected),
+    out.replaceChildren(el('strong', {}, s.title), el('p', { className: 'note' }, s.courier + ' · resi ' + s.resi + ' · ' + s.koli + ' koli · labelled by a person as: ' + expected),
       photos, el('div', { className: 'results' }, resultCard('Basic check', data.basic), resultCard('Gemini check', data.gemini)));
     if (live) loadHistory();
     if (data.live_available && data.gemini.source !== 'live') {

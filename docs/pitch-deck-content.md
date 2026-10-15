@@ -47,7 +47,7 @@ Leave as the template has it.
 - Free basic check: brightness, sharpness and shipping barcode with no model and no cost
 - Structured output only: six fields in a JSON schema; invalid answers are discarded, never repaired
 - Cost controls: four photos per parcel at 1024 px, optional lower media resolution (45% fewer input tokens)
-- Offline eval tool: precision, recall, cost and latency on a graded set before any release
+- Offline eval tool: precision, recall, cost and latency on a labelled set before any release
 
 ## Slide 6: Process flow diagram
 
@@ -107,7 +107,7 @@ Screenshots from https://jeejak-parcel-proof-run.web.app:
 
 ## Slide 12: Prototype performance report / benchmarking
 
-64 graded staged parcels (37 weak), Gemini 3.5 Flash-Lite, prompt 2026-10-07.1:
+64 staged parcels labelled by a person (37 weak), Gemini 3.5 Flash-Lite, prompt 2026-10-07.1:
 
 | Measure | Result | Target |
 |---|---|---|

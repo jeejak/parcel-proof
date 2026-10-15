@@ -13,7 +13,7 @@ import (
 	"github.com/jeejak/parcel-proof/evidencecheck"
 )
 
-// Label is one human-graded record from labels.csv.
+// Label is one human-labelled record from labels.csv.
 type Label struct {
 	RecordID     string
 	Resi         string

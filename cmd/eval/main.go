@@ -1,6 +1,6 @@
 // Command evidencecheck-eval runs the Plan 0016 Phase 0 offline eval:
 // it sends a folder of staged packing photos through a Checker, scores
-// the observations against a human-graded labels file, and prints the
+// the observations against a human-labelled labels file, and prints the
 // D8 numbers plus measured tokens, latency and (if prices are given)
 // cost.
 //

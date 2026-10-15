@@ -42,7 +42,7 @@ Two checks run side by side:
 
 ## Measured, not claimed
 
-Before any seller sees a verdict, we score the model against a set graded by a person, with targets set before the run ([`cmd/eval`](cmd/eval), reports in [`docs/eval`](docs/eval)):
+Before any seller sees a verdict, we score the model against a set labelled by a person, with targets set before the run ([`cmd/eval`](cmd/eval), reports in [`docs/eval`](docs/eval)):
 
 | | Result | Target |
 |---|---|---|
