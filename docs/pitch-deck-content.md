@@ -62,7 +62,7 @@ Draw left to right:
 
 Side branch at step 3: the **basic check** (brightness, sharpness, barcode) with no model.
 
-## Slide 7: Wireframes (optional)
+## Slide 7: Wireframes
 
 Left, the four JejakPaket steps as shown on jeejak.id (Scan, Foto, Video, PDF): "JejakPaket on Google Play: scan the resi, photograph the packing, record the handover, export the dispute PDF. These photos are what ParcelProof checks; the on-phone warning is Phase 2."
 
@@ -90,7 +90,7 @@ JejakPaket app (packing photos) ──> Jeejak backend (Go job, opt-in only) ─
 - **Product:** JejakPaket (Flutter, Google Play), Jeejak console (Go + React), Postgres, object storage
 - **Quality:** offline eval harness, Go race tests, gitleaks secret scanning, govulncheck, GitHub Actions
 
-## Slide 10: Estimated implementation cost (optional)
+## Slide 10: Estimated implementation cost
 
 - Gemini 3.5 Flash-Lite at the Vertex AI list price: **$0.0017 per parcel** (measured: 4,440 input and 72 output tokens per parcel). Re-run on Vertex AI: $0.0018 per parcel at the list price
 - At `MEDIUM` media resolution: **$0.0010 per parcel**
@@ -133,6 +133,8 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 - The Jeejak Super App: products, finance and orders, each with its own AI layer
 
 ## Slide 14: Links
+
+Slide titles drop the template's "(optional)" and "(if any)" qualifiers, its "or Use-case diagram" alternative and its "Provide links to your:" prompt; the section names are otherwise the template's own.
 
 - **GitHub public repository:** https://github.com/jeejak/parcel-proof
 - **Demo video link (3 minutes):** `VIDEO_URL`
