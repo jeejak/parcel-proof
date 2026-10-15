@@ -1,6 +1,6 @@
-# Demo video script (3:00)
+# Demo video script (3:20 to 3:40)
 
-The submission template asks for a **3-minute** video. Record the deployed app (https://parcel-proof-545977798090.asia-southeast2.run.app) in a browser, screen plus voice.
+The rules ask for **3 to 4 minutes**; a video outside that window may be penalised or stopped, and one that does not clearly show the working solution does not reach prototype evaluation. Aim for 3:20 to 3:40 so a re-encode cannot push it under 3:00, and keep the deployed app (https://parcel-proof-545977798090.asia-southeast2.run.app) on screen, address bar visible, for the live parts. Screen plus voice.
 
 | Time | On screen | Say |
 |---|---|---|
