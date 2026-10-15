@@ -136,6 +136,15 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 - **Demo video link (3 minutes):** `VIDEO_URL`
 - **Final product link:** https://jeejak-parcel-proof-run.web.app
 
-## Slide 15
+## Spare slide (template's blank slide after Links): Showcase
+
+**Showcase: the check inside the Jeejak seller console**
+
+Two screenshots from the demo shop: Bukti Drop with a verdict badge on each parcel, and order PP2R36's Foto tab ("Bukti lemah · Nomor resi di label beda dengan pesanan").
+
+- Bukti Drop (left): every packed parcel gets a verdict badge. Order Foto tab (right): the reason in fixed Indonesian text; advice only, it never changes the order.
+- Gemini 3.5 Flash-Lite on Vertex AI, on a demo shop holding only the 8 staged parcels (synthetic, no seller data). 8 of 8 verdicts match the free-tier eval.
+
+## Last slide
 
 Closing slide: leave as the template has it.
