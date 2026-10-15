@@ -11,14 +11,18 @@ Live URL: https://jeejak-parcel-proof-run.web.app (Firebase Hosting in front of 
 | Time | On screen | Say |
 |---|---|---|
 | 0:00 to 0:20 | A dark packing photo, a blurry one, then a marketplace dispute screen (buyer data blurred) | "Every day, Indonesian online sellers lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the label cut off, the box never shown sealed. They find out days later, when the parcel is gone and nothing can be re-shot." |
-| 0:20 to 0:35 | JejakPaket on Google Play, then the ParcelProof title | "We are Jeejak. Our app JejakPaket, on Google Play, records proof for every parcel. ParcelProof is its AI layer: right after packing, it tells the seller whether those photos would win a dispute." |
+| 0:20 to 0:35 | The three JejakPaket screens from Google Play (home, packing scan, an order with its proof photos), then the ParcelProof title | "We are Jeejak. Our app JejakPaket, on Google Play, records proof for every parcel. ParcelProof is its AI layer: right after packing, it tells the seller whether those photos would win a dispute." |
 | 0:35 to 1:05 | **Browser, full window, address bar visible.** Click **Good evidence**, then **Too dark** | "This is the live app, on Firebase Hosting and Google Cloud Run. Each parcel gets a verdict: Bukti kuat, strong; Perlu dicek, worth a look; or Bukti lemah, weak, with the reasons. Two checks run side by side. A free basic check measures brightness, sharpness and the barcode, with no model. Gemini reads the whole photo set." |
-| 1:05 to 1:55 | Click **Wrong label on the parcel**. Press **Run Gemini live**; keep the real wait, sped up, labelled "sped up". Highlight "label reads" on the result card | "Here is the case that costs sellers money. The basic check says strong: the photos are sharp and bright. Now I run Gemini live. On the free tier that takes about twenty seconds, sped up here. Gemini 3.5 Flash-Lite reads the label: 4070-7162. The order is 4070-3162. One digit, and this parcel loses its dispute. Gemini is never told which number to expect. It only transcribes; our server compares." |
-| 1:55 to 2:10 | **Upload your own photo** (one with no real address in frame). Show the basic check result and the note that it is not sent to a model | "Your own photo gets the basic check only. It is never stored and never reaches a model, because a real waybill shows the buyer's name, phone and address." |
-| 2:10 to 2:20 | Scroll to **Recent live Gemini checks** | "Every live result is stored in Firestore, so any instance, and the next visitor, sees it at once." |
-| 2:20 to 2:45 | **Measured, not claimed** on the page, or the numbers as graphics | "We measured it before any seller sees it. On 64 staged parcels, AI-generated images labelled by a person, every Bukti lemah verdict was right, 35 of 35, and 35 of 37 weak parcels were caught. No schema failures. Under a fifth of a US cent per parcel." |
-| 2:45 to 3:15 | Architecture diagram (README on GitHub, or the graphic) | "Gemini answers six fixed fields through a response schema: structured output only. A pure Go function, not the model, decides the verdict, and sellers see fixed Indonesian text, never model text. Firebase Hosting serves it from Cloud Run in Jakarta, with the key in Secret Manager and live results in Firestore. Our production backend already has the same check on Vertex AI, switched off until shops opt in." |
-| 3:15 to 3:30 | Live URL, github.com/jeejak/parcel-proof, jeejak.id | "Next: shadow mode on real shops, then the warning on the phone while the parcel is still on the table. ParcelProof, by Jeejak." |
+| 1:05 to 1:45 | Click **Wrong label on the parcel**, press **Run Gemini live**; it answers at once. Highlight the **21.8 s** on the result card, then "label reads" | "Here is the case that costs sellers money. The basic check says strong: the photos are sharp and bright. Gemini disagrees. This result came from a live call that took 21.8 seconds on the free tier, and Firestore keeps it, so it comes back at once. Gemini 3.5 Flash-Lite reads the label: 4070-7162. The order is 4070-3162. One digit, and this parcel loses its dispute. Gemini is never told which number to expect. It only transcribes; our server compares." |
+| 1:45 to 2:00 | **Upload your own photo** (one with no real address in frame). Show the basic check result and the note that it is not sent to a model | "Your own photo gets the basic check only. It is never stored and never reaches a model, because a real waybill shows the buyer's name, phone and address." |
+| 2:00 to 2:25 | `paket-demo.jeejak.id`, already logged in: **Bukti Drop** with the quality badges, then **Sudah dikirim**, order **PP2R36**, **Foto** tab: "Bukti lemah · Nomor resi di label beda dengan pesanan" | "The same check runs inside our real seller console, on Gemini through Vertex AI. Here it is on a demo shop that holds only the same eight staged parcels. The seller sees the verdict next to the photos, in fixed Indonesian text. It is advice only and never changes the order." |
+| 2:25 to 2:50 | **Measured, not claimed** on the page, or the numbers as graphics | "We measured it before any seller sees it. On 64 staged parcels, AI-generated images labelled by a person, every Bukti lemah verdict was right, 35 of 35, and 35 of 37 weak parcels were caught. No schema failures. Under a fifth of a US cent per parcel." |
+| 2:50 to 3:20 | Architecture diagram (README on GitHub, or deck slide 8 with both lanes) | "Gemini answers six fixed fields through a response schema. A pure Go function, not the model, decides the verdict, and sellers see fixed Indonesian text, never model text. Firebase Hosting serves it from Cloud Run in Jakarta, with the key in Secret Manager and live results in Firestore. In our product backend it runs on Vertex AI, on the demo shop only; real shops get it after they opt in." |
+| 3:20 to 3:35 | Live URL, github.com/jeejak/parcel-proof, jeejak.id | "Next: shadow mode on real shops, then the warning on the phone while the parcel is still on the table. ParcelProof, by Jeejak." |
+
+The voice is about 430 words, roughly 3:15 at 2.2 words a second. The other 20 seconds or so are clicks, page loads and the console navigation, played at real speed with no voice. Do not fill those gaps by talking faster: if the edit comes in under 3:20, hold the result cards on screen longer.
+
+**Why the wrong-label call is not filmed live any more.** All eight samples already have a live result stored in Firestore (R36 ran on 2026-10-14 and took 21.8 s). Each new Cloud Run instance loads those results at startup, so **Run Gemini live** returns the stored result at once and shows its original latency. So the voice says the call happened earlier and quotes the number on the card. Never act out a wait, and never call an instant answer "live right now".
 
 ## Words to keep exact
 
@@ -28,30 +32,28 @@ Each of these is checked against the eval report; do not round or rephrase them 
 - **"Under a fifth of a US cent".** $0.0017 is 0.17 cents: closer to a sixth than a fifth, so never "about a fifth".
 - **"64 staged parcels, AI-generated images, labelled by a person".** Not "graded" and not "photos": the labels are the shot list's intended values with three rows corrected on review (Plan 0016), and the images are generated, not photographed.
 - **Model:** Gemini 3.5 Flash-Lite. **Region:** Jakarta (`asia-southeast2`).
-- **Production is built, not running:** the Vertex AI check exists and is switched off until shops opt in. Never say it runs on real sellers.
+- **"21.8 seconds"** for the wrong-label call: it is the number printed on that result card. The eval median is about 2 seconds; do not quote both as if they were one call.
+- **The product backend runs it on a demo shop only:** Vertex AI checks the eight staged parcels, and no real shop is opted in. Never say it runs on real sellers.
 
 ## Before recording
 
 1. Open the live URL in an incognito window and check `/health` shows `"status":"ok"`.
-2. Pick the samples you will show. For **Wrong label on the parcel**, record the first live call so the wait is real; every sample checked before is served from Firestore instantly, which is right for the others but would make the live moment look canned.
+2. Open `/api/history` and check that **R36 Wrong label on the parcel** is there at 21832 ms. If it is missing, someone cleared Firestore and the next press makes a new call: then the wait is real and the voice must quote the new number instead.
 3. Prepare an upload photo with no real name, phone or address anywhere in frame.
 4. Browser at 100% zoom, 1920×1080, bookmarks bar hidden, no other tabs or notifications.
+5. Log in to `paket-demo.jeejak.id` as the demo owner **before** you start recording, so the login form and the password are never on screen. Check that Bukti Drop shows the badges on all eight parcels.
 
 ## In the edit
 
-- **A timer on screen must match the result.** If you show a "live call" counter, stop it on the seconds the result card prints.
-- **Label anything sped up** ("sped up") and never cut out the wait without saying so.
-- **Music 18 to 20 dB under the voice**, and let it drop out entirely during the live call.
+- **No timer and no fake wait** for the wrong-label result: it answers at once, and the card's 21.8 s is the real figure.
+- **Label anything sped up** ("sped up"), such as a scroll or a page load you shortened.
+- **Music 18 to 20 dB under the voice.**
+- **Captions say "labelled", never "graded"** (version 1.0 had "graded" in the measured-results caption).
 - **Captions** burned in, same words as the voice.
 - **Check the export** before uploading: duration between 3:20 and 3:40, and the video plays with the sound on.
 
-## The Jeejak console segment (optional, 20 seconds)
+## If the console is down
 
-The same check runs inside the real Jeejak seller console on a demo shop that holds only the eight staged parcels (`paket-demo.jeejak.id`; log in as the demo owner, no judge account). Use it in place of 2:10 to 2:20, and trim the architecture row so the total stays under 3:40.
-
-| On screen | Say |
-|---|---|
-| **Bukti Drop** with the quality badges on the eight parcels | "The same check runs inside our real seller console. Here it is on a demo shop with the same eight staged parcels, on Gemini through Vertex AI." |
-| **Sudah dikirim** list, open order **PP2R36**, **Foto** tab: "Bukti lemah · Nomor resi di label beda dengan pesanan" | "The seller sees the verdict next to the photos, in fixed Indonesian text. It is advice only and never changes the order." |
+The 2:00 to 2:25 segment needs the demo server and its tunnel. If `paket-demo.jeejak.id` does not load on the day, use the stills in its place (`01` to `05` in the folder below) with the same voice, and do not describe them as live. As a last resort, cut the segment and show **Recent live Gemini checks** on the ParcelProof page for 10 seconds: "Every live result is stored in Firestore, so any instance, and the next visitor, sees it at once." Then hold the result cards longer so the total stays above 3:20.
 
 Stills for the deck or the edit are in `AIBuilderCup/screenshots/` in the Jeejak workspace (not in this repo).
