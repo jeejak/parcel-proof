@@ -64,7 +64,9 @@ Side branch at step 3: the **basic check** (brightness, sharpness, barcode) with
 
 ## Slide 7: Wireframes (optional)
 
-Skip, or reuse a screenshot from Slide 11.
+Left, three JejakPaket screens from the Google Play listing (home, packing scan, an order with its proof photos): "JejakPaket on Google Play: home, packing scan, an order with its proof photos. This is where the photos come from; the on-phone warning is Phase 2."
+
+Right, the ParcelProof page on web.app: "ParcelProof on web.app, no login · Measured results first, then eight staged samples · Uploads get the free basic check only."
 
 ## Slide 8: Architecture diagram
 
@@ -76,8 +78,8 @@ Browser ──HTTPS──> Firebase Hosting (web.app) ──rewrite──> Cloud
 Secret Manager (gemini-api-key) ··> Cloud Run
 Cloud Run <──> Cloud Firestore (live results + history)
 
-Jeejak backend (built, merged): job over synced photos ──> Gemini on Vertex AI ──> verdict ──> seller console badge.
-Running on a demo shop at paket-demo.jeejak.id with the 8 staged parcels; real shops only after they opt in.
+Inside the Jeejak product (running on a demo shop with the 8 staged parcels; real shops only after they opt in):
+JejakPaket app (packing photos) ──> Jeejak backend (Go job, opt-in only) ──> Vertex AI (gemini-3.5-flash-lite) ──> Seller console (verdict badge)
 ```
 
 ## Slide 9: Technologies
