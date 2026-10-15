@@ -45,6 +45,13 @@ Each of these is checked against the eval report; do not round or rephrase them 
 - **Captions** burned in, same words as the voice.
 - **Check the export** before uploading: duration between 3:20 and 3:40, and the video plays with the sound on.
 
-## When the paket demo console is up
+## The Jeejak console segment (optional, 20 seconds)
 
-Replace 2:10 to 2:20 with the Jeejak seller console at `paket-demo.jeejak.id`: the Bukti Drop list with quality badges and one order's Foto tab, about 20 seconds, and trim the architecture row to keep the total under 3:40. Say: "The same check runs inside our real seller console, on a demo shop with the same eight staged parcels."
+The same check runs inside the real Jeejak seller console on a demo shop that holds only the eight staged parcels (`paket-demo.jeejak.id`; log in as the demo owner, no judge account). Use it in place of 2:10 to 2:20, and trim the architecture row so the total stays under 3:40.
+
+| On screen | Say |
+|---|---|
+| **Bukti Drop** with the quality badges on the eight parcels | "The same check runs inside our real seller console. Here it is on a demo shop with the same eight staged parcels, on Gemini through Vertex AI." |
+| **Sudah dikirim** list, open order **PP2R36**, **Foto** tab: "Bukti lemah · Nomor resi di label beda dengan pesanan" | "The seller sees the verdict next to the photos, in fixed Indonesian text. It is advice only and never changes the order." |
+
+Stills for the deck or the edit are in `AIBuilderCup/screenshots/` in the Jeejak workspace (not in this repo).

@@ -74,7 +74,7 @@ flowchart LR
   D --> B
 ```
 
-More in [`docs/architecture.md`](docs/architecture.md). In production (the Jeejak backend, not in this repo), the same `evidencecheck` package is built into a background job over synced packing photos that calls Gemini on **Vertex AI** and shows the badge in the seller console. It is switched off until shops opt in and our privacy policy names Google Cloud as a processor.
+More in [`docs/architecture.md`](docs/architecture.md). In production (the Jeejak backend, not in this repo), the same `evidencecheck` package is built into a background job over synced packing photos that calls Gemini on **Vertex AI** and shows the badge in the seller console. It is switched off for real shops until they opt in and our privacy policy names Google Cloud as a processor. It runs today on a demo shop that holds only the eight staged samples, inside the real Jeejak seller console: on Vertex AI it returned the same 48 of 48 fields and 8 of 8 verdicts as the free-tier eval, at $0.0018 per parcel.
 
 ## Privacy by design
 

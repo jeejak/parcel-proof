@@ -76,7 +76,8 @@ Browser ──HTTPS──> Firebase Hosting (web.app) ──rewrite──> Cloud
 Secret Manager (gemini-api-key) ··> Cloud Run
 Cloud Run <──> Cloud Firestore (live results + history)
 
-Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI ──> verdict ──> seller console badge
+Jeejak backend (built, merged): job over synced photos ──> Gemini on Vertex AI ──> verdict ──> seller console badge.
+Running on a demo shop at paket-demo.jeejak.id with the 8 staged parcels; real shops only after they opt in.
 ```
 
 ## Slide 9: Technologies
