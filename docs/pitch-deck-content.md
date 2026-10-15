@@ -8,7 +8,7 @@ Mapped to the AI Builder Cup 2026 template, slide by slide. Paste each block int
 - **Team leader name:** Samsul Hadi
 - **Problem statement:** Retail & Commerce: Intelligent Customer and Business Experiences
 
-Team: Samsul Hadi (lead, product and engineering), Rahul Todur (business and marketing development, India), Ryan Rizki (software engineer).
+Team: Samsul Hadi (lead, product and engineering), Cena Azzahra, Ryan Rizki (software engineer).
 
 ## Slide 2: template note
 
@@ -35,7 +35,7 @@ Leave as the template has it.
 
 **USP**
 - Measured before trusted: 100% precision and 94.6% recall on weak evidence, against targets set before the run.
-- The model observes, the server decides: fixed JSON schema in, deterministic verdict out, fixed Indonesian text to the seller.
+- The model observes, the server decides: fixed JSON schema in, deterministic verdict out, fixed Indonesian text to the seller. Gemini can't write a tracking number into a seller's proof.
 - Privacy by design: real photos only after a shop opts in; a free check that sends no photo anywhere runs beside Gemini.
 
 ## Slide 5: List of features
@@ -82,7 +82,7 @@ Running on a demo shop at paket-demo.jeejak.id with the 8 staged parcels; real s
 
 ## Slide 9: Technologies
 
-- **Google AI:** Gemini 3.5 Flash-Lite, multimodal, structured output (`responseSchema`); Gemini API for the demo, Vertex AI for production
+- **Google AI:** Gemini 3.5 Flash-Lite, multimodal, structured output (`responseSchema`); Gemini API for the public demo; Vertex AI in the Jeejak seller console
 - **Google Cloud:** Firebase Hosting, Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager, Cloud Firestore
 - **Backend:** Go, Google API client, gozxing for barcodes
 - **Product:** JejakPaket (Flutter, Google Play), Jeejak console (Go + React), Postgres, object storage
@@ -90,7 +90,7 @@ Running on a demo shop at paket-demo.jeejak.id with the 8 staged parcels; real s
 
 ## Slide 10: Estimated implementation cost (optional)
 
-- Gemini 3.5 Flash-Lite at the Vertex AI list price: **$0.0017 per parcel** (measured: 4,440 input and 72 output tokens per parcel)
+- Gemini 3.5 Flash-Lite at the Vertex AI list price: **$0.0017 per parcel** (measured: 4,440 input and 72 output tokens per parcel). Re-run on Vertex AI: $0.0018 per parcel at the list price
 - At `MEDIUM` media resolution: **$0.0010 per parcel**
 - Example, 100 parcels a day for 30 days: about **$5** a month, or **$3** at `MEDIUM`
 - Basic check: **$0**
@@ -123,12 +123,12 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 
 ## Slide 13: Additional details / future development
 
+- Done: the check runs inside the Jeejak seller console on Vertex AI, on a demo shop with the 8 staged parcels; 48 of 48 fields and 8 of 8 verdicts match the free-tier eval
 - Shadow mode on opted-in shops, with precision re-measured on real photos
 - The warning on the phone at packing time: "photo too dark, retake"
 - Claim triage: read the buyer's claim and point to the photo that answers it
 - English across Jeejak's site, app and console (planned)
 - The Jeejak Super App: products, finance and orders, each with its own AI layer
-- Business development in India
 
 ## Slide 14: Links
 
