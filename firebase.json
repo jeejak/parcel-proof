@@ -1,0 +1,9 @@
+{
+  "hosting": {
+    "public": "infra/hosting",
+    "ignore": ["**/.*"],
+    "rewrites": [
+      { "source": "**", "run": { "serviceId": "parcel-proof", "region": "asia-southeast2" } }
+    ]
+  }
+}

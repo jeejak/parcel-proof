@@ -2,7 +2,7 @@
 
 **Will this packing photo win the dispute?** ParcelProof checks, right after packing, whether an online seller's photos would hold up as proof in a Shopee or TikTok Shop dispute, using Gemini on Google Cloud.
 
-**Live demo:** https://parcel-proof-545977798090.asia-southeast2.run.app (no login; staged sample parcels are preloaded)
+**Live demo:** https://jeejak-parcel-proof-run.web.app (no login; staged sample parcels are preloaded). Firebase Hosting in front of Cloud Run; the service is also reachable directly at https://parcel-proof-545977798090.asia-southeast2.run.app.
 
 **Built for:** AI Builder Cup 2026, Retail & Commerce: Intelligent Customer and Business Experiences
 
@@ -63,7 +63,8 @@ Basic check, thresholds fitted on half the set and scored on the other half: dar
 
 ```mermaid
 flowchart LR
-  B[Browser] -->|HTTPS| CR[Cloud Run: parcel-proof]
+  B[Browser] -->|HTTPS| FH[Firebase Hosting: web.app]
+  FH -->|rewrite| CR[Cloud Run: parcel-proof]
   CR -->|"pixels + barcode (Go, no model)"| BC[Basic check]
   CR -->|"staged samples only, responseSchema"| G[Gemini API: gemini-3.5-flash-lite]
   SM[Secret Manager: gemini-api-key] -.-> CR
@@ -84,6 +85,7 @@ A real waybill shows the buyer's name, phone and address. So:
 
 ## Deployment on Google Cloud
 
+- **Firebase Hosting** serves the public address (`jeejak-parcel-proof-run.web.app`) and forwards every path to the Cloud Run service ([`firebase.json`](firebase.json)). Responses are not cached, so live results stay live.
 - **Cloud Run**, region `asia-southeast2` (Jakarta), built from source with the root [`Dockerfile`](Dockerfile) (distroless, non-root).
 - **Secret Manager** holds the Gemini API key; it is never in the repo.
 - **Cloud Firestore** stores every live Gemini result. Any instance shows the latest live verdict for a sample without calling the model again, and the page lists recent live checks.
@@ -91,7 +93,8 @@ A real waybill shows the buyer's name, phone and address. So:
 - `/health` for uptime checks. The first screen never waits on a model call: it serves the stored live result for each sample, or the one the eval recorded, and "Run Gemini live" calls the model on demand. If Gemini is busy, the recorded result is shown with a note instead of an error.
 
 ```bash
-infra/deploy.sh <gcp-project> [region]
+infra/deploy.sh <gcp-project> [region]   # Cloud Run
+firebase deploy --only hosting           # Firebase Hosting rewrite
 ```
 
 ## Run locally

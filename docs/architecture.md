@@ -1,6 +1,8 @@
 # Architecture
 
-## Demo (this repo, on Cloud Run)
+## Demo (this repo, Firebase Hosting in front of Cloud Run)
+
+The public address is `jeejak-parcel-proof-run.web.app`. Firebase Hosting has no static files and forwards every path to the Cloud Run service (`firebase.json`), so the diagram below starts at Cloud Run. A forwarded request may run for at most 60 s, which covers a free-tier live Gemini call.
 
 ```mermaid
 sequenceDiagram

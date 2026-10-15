@@ -69,7 +69,7 @@ Skip, or reuse a screenshot from Slide 11.
 ## Slide 8: Architecture diagram
 
 ```
-Browser ──HTTPS──> Cloud Run: parcel-proof (asia-southeast2, Jakarta)
+Browser ──HTTPS──> Firebase Hosting (web.app) ──rewrite──> Cloud Run: parcel-proof (asia-southeast2, Jakarta)
                      ├─> Basic check (Go: pixels + Code 128 barcode, no model)
                      ├─> Gemini API: gemini-3.5-flash-lite (staged samples only, responseSchema)
                      └─> Decide (Go): verdict + reason codes ──> Browser
@@ -82,7 +82,7 @@ Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI 
 ## Slide 9: Technologies
 
 - **Google AI:** Gemini 3.5 Flash-Lite, multimodal, structured output (`responseSchema`); Gemini API for the demo, Vertex AI for production
-- **Google Cloud:** Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager, Cloud Firestore
+- **Google Cloud:** Firebase Hosting, Cloud Run (asia-southeast2, Jakarta), Cloud Build, Artifact Registry, Secret Manager, Cloud Firestore
 - **Backend:** Go, Google API client, gozxing for barcodes
 - **Product:** JejakPaket (Flutter, Google Play), Jeejak console (Go + React), Postgres, object storage
 - **Quality:** offline eval harness, Go race tests, gitleaks secret scanning, govulncheck, GitHub Actions
@@ -97,7 +97,7 @@ Production (Jeejak backend): job over synced photos ──> Gemini on Vertex AI 
 
 ## Slide 11: Snapshots of the prototype
 
-Screenshots from https://parcel-proof-545977798090.asia-southeast2.run.app:
+Screenshots from https://jeejak-parcel-proof-run.web.app:
 
 1. The sample gallery and the "Measured, not claimed" numbers
 2. **Wrong label on the parcel:** basic check says Bukti kuat; Gemini says Bukti lemah, reading NLIDAP40707162 while the order is NLIDAP40703162
@@ -133,7 +133,7 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 
 - **GitHub public repository:** https://github.com/jeejak/parcel-proof
 - **Demo video link (3 minutes):** `VIDEO_URL`
-- **Final product link:** https://parcel-proof-545977798090.asia-southeast2.run.app
+- **Final product link:** https://jeejak-parcel-proof-run.web.app
 
 ## Slide 15
 

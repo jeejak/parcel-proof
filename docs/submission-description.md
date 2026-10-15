@@ -6,7 +6,7 @@ Gemini 3.5 Flash-Lite reads up to four photos and answers six fields in a JSON s
 
 On 64 graded staged parcels: 100% precision and 94.6% recall on weak evidence, about $0.0017 per parcel.
 
-Runs on Cloud Run (Jakarta) with Secret Manager; Cloud Firestore stores every live Gemini result, so any instance shows it at once. ParcelProof is the AI layer of JejakPaket, our app on Google Play.
+Firebase Hosting serves the page and forwards to Cloud Run in Jakarta, which holds the Gemini key in Secret Manager. Cloud Firestore stores every live Gemini result, so any instance shows it at once. ParcelProof is the AI layer of JejakPaket, our app on Google Play.
 
-Live: https://parcel-proof-545977798090.asia-southeast2.run.app
+Live: https://jeejak-parcel-proof-run.web.app
 Code: github.com/jeejak/parcel-proof
