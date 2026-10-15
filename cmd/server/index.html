@@ -153,7 +153,7 @@ async function runSample(s, live = false) {
     const res = await fetch('/api/check/sample/' + s.id + (live ? '/live' : ''), { method: 'POST' });
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || res.statusText);
-    const expected = VERDICT[s.expected] ? VERDICT[s.expected][0] : s.expected;
+    const expected = VERDICT[s.expected] ? VERDICT[s.expected][0] + ' (' + VERDICT[s.expected][1] + ')' : s.expected;
     out.replaceChildren(el('strong', {}, s.title), el('p', { className: 'note' }, s.courier + ' · resi ' + s.resi + ' · ' + s.koli + ' koli · labelled by a person as: ' + expected),
       photos, el('div', { className: 'results' }, resultCard('Basic check', data.basic), resultCard('Gemini check', data.gemini)));
     if (live) loadHistory();
@@ -188,7 +188,7 @@ async function loadHistory() {
       const v = VERDICT[h.result.verdict] || [h.result.verdict, ''];
       const when = h.result.checked_at ? new Date(h.result.checked_at).toLocaleString() : '';
       const secs = h.result.latency_ms ? (h.result.latency_ms / 1000).toFixed(1) + ' s' : '';
-      t.append(el('tr', {}, el('td', {}, h.title), el('td', {}, el('span', { className: 'badge ' + h.result.verdict }, v[0])),
+      t.append(el('tr', {}, el('td', {}, h.title), el('td', {}, el('span', { className: 'badge ' + h.result.verdict }, v[0]), v[1] ? el('small', {}, ' ' + v[1]) : ''),
         el('td', {}, [h.result.model, secs, when].filter(Boolean).join(' · '))));
     });
     box.replaceChildren(t);
