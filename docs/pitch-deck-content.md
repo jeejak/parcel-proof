@@ -16,9 +16,9 @@ Leave as the template has it.
 
 ## Slide 3: Brief about the idea
 
-**ParcelProof: will this packing photo win the dispute?**
+**ParcelProof: will this packing photo hold up in a dispute?**
 
-- Indonesian online sellers lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the shipping label cut off, the box never shown sealed. They find out days later, when nothing can be re-shot.
+- Indonesian online sellers can lose Shopee and TikTok Shop disputes because their proof photo is useless: too dark, the shipping label cut off, the box never shown sealed. They find out days later, when nothing can be re-shot.
 - ParcelProof checks the packing photos right after packing and returns **Bukti kuat** (strong), **Perlu dicek** (worth a look) or **Bukti lemah** (weak), with the reason.
 - Gemini reads the photos; our own code decides the verdict and compares the tracking number, so the model can't write a tracking number into a seller's proof.
 - It is the AI layer of JejakPaket, our app on Google Play that already records resi scans, packing photos and handover video.
@@ -26,7 +26,7 @@ Leave as the template has it.
 ## Slide 4: Opportunities
 
 **How is it different from existing ideas?**
-- Recording apps store proof. ParcelProof tells the seller, before the parcel leaves, whether that proof will hold up, and why.
+- Recording apps (Rekam & Kemas, Packy, BigSeller) store proof, and AI-branded Packproof shows the packer what to pack. We found none that advertises reading the label number against the order, checking photo quality, or publishing its measured accuracy. ParcelProof tells the seller, before the parcel leaves, whether that proof will hold up, and why.
 - Built on a product sellers can already install (JejakPaket on Google Play), not a standalone demo.
 
 **How does it solve the problem?**
@@ -131,6 +131,10 @@ Caveat: the parcels are AI-generated images of staged packing, not real orders; 
 - Claim triage: read the buyer's claim and point to the photo that answers it
 - English across Jeejak's site, app and console (planned)
 - The Jeejak Super App: products, finance and orders, each with its own AI layer
+
+## Market and go-to-market slides (from Cena Azzahra)
+
+Visible: background and market context (e-Conomy SEA 2025, Kemendag, YLKI, Kumparan), competitor findings, market sizing, ICP cohorts, go-to-market. Hidden: the seller-accounts intro, category findings, consumer findings and the positioning map (its two "Xx" labels are unfilled). Market sizing uses Jeejak's own prices: 6,840 businesses at Pro Lite (Rp49,000) to Pro (Rp99,000) a month is Rp4.0 to 8.1 billion a year; Packy Starter (Rp149,000) is kept as the competitor benchmark (Rp12.2 billion).
 
 ## Slide 14: Links
 

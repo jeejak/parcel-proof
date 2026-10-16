@@ -1,6 +1,6 @@
 # ParcelProof by Jeejak
 
-**Will this packing photo win the dispute?** ParcelProof checks, right after packing, whether an online seller's photos would hold up as proof in a Shopee or TikTok Shop dispute, using Gemini on Google Cloud.
+**Will this packing photo hold up in a dispute?** ParcelProof checks, right after packing, whether an online seller's photos would hold up as proof in a Shopee or TikTok Shop dispute, using Gemini on Google Cloud.
 
 **Live demo:** https://jeejak-parcel-proof-run.web.app (no login; staged sample parcels are preloaded). Firebase Hosting in front of Cloud Run; the service is also reachable directly at https://parcel-proof-545977798090.asia-southeast2.run.app.
 
