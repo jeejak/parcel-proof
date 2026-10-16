@@ -59,6 +59,6 @@ Each of these is checked against the eval report; do not round or rephrase them 
 
 ## If the console is down
 
-The 2:00 to 2:25 segment needs the demo server and its tunnel. If `paket-demo.jeejak.id` does not load on the day, use the stills in its place (`01` to `05` in the folder below) with the same voice, and do not describe them as live. As a last resort, cut the segment and show **Recent live Gemini checks** on the ParcelProof page for 10 seconds: "Every live result is stored in Firestore, so any instance, and the next visitor, sees it at once." Then hold the result cards longer so the total stays above 3:20.
+The 2:05 to 2:30 segment needs the demo server and its tunnel. If `paket-demo.jeejak.id` does not load on the day, use the stills in its place (`01` to `05` in the folder below) with the same voice, and do not describe them as live. As a last resort, cut the segment and show **Recent live Gemini checks** on the ParcelProof page for 10 seconds: "Every live result is stored in Firestore, so any instance, and the next visitor, sees it at once." Then hold the result cards longer so the total stays above 3:35.
 
 Stills for the deck or the edit are in `AIBuilderCup/screenshots/` in the Jeejak workspace (not in this repo).
