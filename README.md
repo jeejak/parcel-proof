@@ -4,6 +4,8 @@
 
 **Live demo:** https://jeejak-parcel-proof-run.web.app (no login; staged sample parcels are preloaded). Firebase Hosting in front of Cloud Run; the service is also reachable directly at https://parcel-proof-545977798090.asia-southeast2.run.app.
 
+**Demo video (3:42):** https://youtu.be/_PEsJ_lM6aM
+
 **Built for:** AI Builder Cup 2026, Retail & Commerce: Intelligent Customer and Business Experiences
 
 ---
