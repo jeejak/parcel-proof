@@ -6,7 +6,7 @@ toolchain go1.26.9
 
 require (
 	github.com/makiuchi-d/gozxing v0.1.1
-	google.golang.org/api v0.302.0
+	google.golang.org/api v0.304.0
 )
 
 require (
